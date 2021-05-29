@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navitgation"
+    app:startDestination="@id/authenticationFragment">
+
+    <fragment
+        android:id="@+id/authenticationFragment"
+        android:name="gaur.himanshu.august.notes.fragments.authentication.AuthenticationFragment"
+        android:label="fragment_authentication"
+        tools:layout="@layout/fragment_authentication" >
+        <action
+            android:id="@+id/action_authenticationFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/fragment_animation"
+            app:exitAnim="@anim/fragment_exit_animation" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="gaur.himanshu.august.notes.fragments.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_manipulationFragment"
+            app:destination="@id/manipulationFragment"
+            app:enterAnim="@anim/fragment_animation"
+            app:exitAnim="@anim/fragment_exit_animation" />
+    </fragment>
+    <fragment
+        android:id="@+id/manipulationFragment"
+        android:name="gaur.himanshu.august.notes.fragments.manuplation.ManipulationFragment"
+        android:label="ManipulationFragment" >
+        <argument android:name="notes"
+            app:argType="gaur.himanshu.august.notes.room.Notes"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+</navigation>
