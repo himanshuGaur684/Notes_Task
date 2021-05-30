@@ -94,7 +94,12 @@ class AuthenticationFragment : Fragment() {
         if (requestCode == RC_SIGN_IN) {
             Log.d("TAG", "onActivityResult: RC_SIGN_IN")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInClient(task)
+            if (task.isSuccessful) {
+                handleSignInClient(task)
+            }
+            if (task.isCanceled) {
+                requireContext().makeToast("Cancelled!! Retry")
+            }
         }
     }
 
@@ -102,18 +107,15 @@ class AuthenticationFragment : Fragment() {
         try {
             val account = task.getResult(ApiException::class.java)
             if (account != null) {
-                Log.d("TAG", "handleSignInClient: ${account.displayName}")
                 sharedPreferences.edit().putString(Constants.USERNAME, account.displayName).apply()
                 sharedPreferences.edit().putString(Constants.EMAIL, account.email).apply()
                 sharedPreferences.edit().putString(Constants.PHOTO_URL, account.photoUrl.toString())
                     .apply()
                 findNavController().navigate(AuthenticationFragmentDirections.actionAuthenticationFragmentToDashboardFragment())
-            } else {
-                requireContext().makeToast("Error Occurred")
             }
         } catch (e: ApiException) {
             e.printStackTrace()
-            requireContext().makeToast(e.stackTrace.toString())
+            requireContext().makeToast(e.printStackTrace().toString())
         }
 
 
